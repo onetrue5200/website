@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['106.15.0.62']
 
 INSTALLED_APPS = [
     'campus',
+    'kof',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
