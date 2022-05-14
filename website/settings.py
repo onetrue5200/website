@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['106.15.0.62']
 # Application definition
 
 INSTALLED_APPS = [
+    'campus',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

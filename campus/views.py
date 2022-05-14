@@ -1,7 +1,6 @@
-from curses.ascii import HT
-from django.http import HttpResponse
+import imp
+from django.shortcuts import render
 
 
 def index(request):
-    print("H")
-    return HttpResponse("homepage")
+    return render(request, 'campus/index.html')
