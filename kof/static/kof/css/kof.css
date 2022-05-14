@@ -1,0 +1,11 @@
+#kof {
+    width: 1280px;
+    height: 720px;
+    background-image: url('../image/background/02.gif');
+    /* cover the div */
+    background-size: 200% 100%;
+    /* center image */
+    background-position: top;
+    /* center div */
+    margin: 0 auto;
+}
