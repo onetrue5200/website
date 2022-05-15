@@ -48,6 +48,7 @@ export class Player extends Object {
                 this.ctx.drawImage(image, this.x, this.y + animation.offset_y, image.width * animation.scale, image.height * animation.scale);
             } else {
                 this.ctx.save();
+
                 this.ctx.scale(-1, 1);
                 this.ctx.translate(-this.kof.map.$canvas.width(), 0);
 

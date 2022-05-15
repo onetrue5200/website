@@ -1,5 +1,6 @@
 import { Map } from "./map.js";
 import { Kyo } from "./players/kyo.js";
+import { GameSocket } from "./sockets/game_socket.js";
 
 // the kof game class
 export class KOF {
@@ -26,5 +27,7 @@ export class KOF {
                 color: 'red',
             }),
         ];
+        // create game socket
+        this.game_socket = new GameSocket(this);
     }
 }
