@@ -33,6 +33,12 @@ export class Player extends Object {
         this.frame_current_cnt = 0;
     }
 
+    move_to(x, y, status) {
+        this.x = x;
+        this.y = y;
+        this.status = status;
+    }
+
     start() {
         if (this.map.players.length >= 2)
             this.map.start_fighting(this.order);
@@ -91,6 +97,8 @@ export class Player extends Object {
         } else if (this.x + this.width > this.ctx.canvas.width) {
             this.x = this.ctx.canvas.width - this.width;
         }
+        if (this.map.game_socket.uuid === this.uuid && this.map.game_socket.state === true)
+            this.map.game_socket.send_location(this.uuid, this.x, this.y, this.status);
     }
 
     update_control() {

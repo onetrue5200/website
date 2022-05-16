@@ -27,6 +27,7 @@ export class Menu {
             let uuid = outer.kof.map.add_player();
             outer.kof.map.create_socket(uuid);
             outer.kof.map.game_socket.ws.onopen = function () {
+                outer.kof.map.game_socket.state = true;
                 outer.kof.map.game_socket.send_create_player();
             }
         });
