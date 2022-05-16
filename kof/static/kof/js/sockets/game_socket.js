@@ -16,10 +16,11 @@ export class GameSocket {
         }));
     }
 
-    receive_create_player(uuid) {
+    receive_create_player(uuid, order) {
         let player = new Kyo(this.kof, {
+            order: order,
             x: 580,
-            y: 0,
+            y: 450,
             width: 120,
             height: 200,
             color: 'red',
@@ -34,10 +35,11 @@ export class GameSocket {
             let data = JSON.parse(e.data);
             let event = data.event;
             let uuid = data.uuid;
+            let order = data.order;
             if (uuid === outer.uuid)
                 return false;
             if (event === 'create_player') {
-                outer.receive_create_player(uuid);
+                outer.receive_create_player(uuid, order);
             }
         }
     }

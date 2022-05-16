@@ -25,6 +25,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({
                 'event': 'create_player',
                 'uuid': player['uuid'],
+                'order': 0,
             }))
 
         await self.channel_layer.group_add(self.room_name, self.channel_name)
@@ -45,6 +46,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'type': 'group_create_player',
                 'event': 'create_player',
                 'uuid': data['uuid'],
+                'order': 1,
             }
         )
 

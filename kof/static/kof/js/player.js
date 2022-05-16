@@ -7,6 +7,8 @@ export class Player extends Object {
         this.map = map;
         this.ctx = this.map.ctx;
 
+        this.order = info.order;
+
         this.x = info.x;
         this.y = info.y;
         this.width = info.width;
@@ -31,7 +33,10 @@ export class Player extends Object {
         this.frame_current_cnt = 0;
     }
 
-    start() { }
+    start() {
+        if (this.map.players.length >= 2)
+            this.map.start_fighting(this.order);
+    }
 
     render() {
         // draw the player
@@ -89,6 +94,8 @@ export class Player extends Object {
     }
 
     update_control() {
+        if (this.map.state != 'fighting')
+            return;
 
         let w = this.pressed_keys.has('w');
         let a = this.pressed_keys.has('a');

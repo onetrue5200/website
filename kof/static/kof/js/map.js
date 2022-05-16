@@ -20,10 +20,19 @@ export class Map extends Object {
         // create a controler
         this.controler = new Controler(this.$canvas);
 
+        // game state
+        this.state = 'waiting';
+
         // player list
         this.players = [];
 
         this.start();
+    }
+
+    start_fighting(order) {
+        this.players[order].x = 880;
+        this.players[1 - order].x = 200;
+        this.state = 'fighting';
     }
 
     create_socket(uuid) {
@@ -33,8 +42,9 @@ export class Map extends Object {
 
     add_player() {
         let player = new Kyo(this, {
+            order: 0,
             x: 580,
-            y: 0,
+            y: 450,
             width: 120,
             height: 200,
             color: 'blue',
