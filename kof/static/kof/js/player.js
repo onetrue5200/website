@@ -7,7 +7,6 @@ export class Player extends Object {
         this.kof = kof;
         this.ctx = this.kof.map.ctx;
 
-        this.id = info.id;
         this.x = info.x;
         this.y = info.y;
         this.width = info.width;
@@ -90,44 +89,39 @@ export class Player extends Object {
     }
 
     update_control() {
-        let w, a, d, space;
-        if (this.id === 0) {
-            w = this.pressed_keys.has('w');
-            a = this.pressed_keys.has('a');
-            d = this.pressed_keys.has('d');
-            space = this.pressed_keys.has(' ');
-        } else if (this.id === 1) {
-            w = this.pressed_keys.has('ArrowUp');
-            a = this.pressed_keys.has('ArrowLeft');
-            d = this.pressed_keys.has('ArrowRight');
-            space = this.pressed_keys.has('Enter');
-        }
 
-        if (this.status === 0 || this.status === 1) {
-            if (space) {  // attack
-                this.status = 4;
-                this.vx = 0;
-                this.frame_current_cnt = 0;
-            } else if (w) {  // jump
-                if (d) {  // & move forward
-                    this.vx = this.speedx;
-                } else if (a) {  // & move backward
-                    this.vx = -this.speedx;
-                } else {  // mo move
+        let w = this.pressed_keys.has('w');
+        let a = this.pressed_keys.has('a');
+        let d = this.pressed_keys.has('d');
+        let space = this.pressed_keys.has(' ');
+
+        if (this.uuid === this.kof.players[0].uuid) {  // only you can move by controler
+            if (this.status === 0 || this.status === 1) {
+                if (space) {  // attack
+                    this.status = 4;
                     this.vx = 0;
+                    this.frame_current_cnt = 0;
+                } else if (w) {  // jump
+                    if (d) {  // & move forward
+                        this.vx = this.speedx;
+                    } else if (a) {  // & move backward
+                        this.vx = -this.speedx;
+                    } else {  // mo move
+                        this.vx = 0;
+                    }
+                    this.vy = this.speedy;
+                    this.status = 3;
+                    this.frame_current_cnt = 0;
+                } else if (d) {  // move forward
+                    this.vx = this.speedx;
+                    this.status = 1;
+                } else if (a) {  // move backward
+                    this.vx = -this.speedx;
+                    this.status = 1;
+                } else {  // stand
+                    this.vx = 0;
+                    this.status = 0;
                 }
-                this.vy = this.speedy;
-                this.status = 3;
-                this.frame_current_cnt = 0;
-            } else if (d) {  // move forward
-                this.vx = this.speedx;
-                this.status = 1;
-            } else if (a) {  // move backward
-                this.vx = -this.speedx;
-                this.status = 1;
-            } else {  // stand
-                this.vx = 0;
-                this.status = 0;
             }
         }
     }
@@ -136,7 +130,9 @@ export class Player extends Object {
         let players = this.kof.players;
         if (players[0] && players[1]) {
             let me = this;
-            let you = players[1 - this.id];
+            let you;
+            if (me === players[0]) you = players[1];
+            else you = players[0];
             if (me.x < you.x) me.direction = 1;
             else me.direction = -1;
         }
