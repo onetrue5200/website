@@ -1,14 +1,13 @@
 import { Kyo } from "../players/kyo.js";
 
 export class GameSocket {
-    constructor(kof) {
+    constructor(kof, uuid) {
         this.kof = kof;
         this.ws = new WebSocket("ws://106.15.0.62:8000/kof/wss/game/");
-        this.uuid = this.kof.players[0].uuid;
+        this.uuid = uuid;
 
         this.start();
     }
-
 
     send_create_player() {
         this.ws.send(JSON.stringify({
@@ -19,7 +18,7 @@ export class GameSocket {
 
     receive_create_player(uuid) {
         let player = new Kyo(this.kof, {
-            x: 500,
+            x: 580,
             y: 0,
             width: 120,
             height: 200,

@@ -1,11 +1,11 @@
 import { Object } from "./object.js";
 
 export class Player extends Object {
-    constructor(kof, info) {
+    constructor(map, info) {
         super();
 
-        this.kof = kof;
-        this.ctx = this.kof.map.ctx;
+        this.map = map;
+        this.ctx = this.map.ctx;
 
         this.x = info.x;
         this.y = info.y;
@@ -25,7 +25,7 @@ export class Player extends Object {
 
         this.status = 3;  // 0: default, 1: forward, 2: backward, 3: jump, 4: attack, 5: attacked, 6: dead
 
-        this.pressed_keys = this.kof.map.controler.pressed_keys;
+        this.pressed_keys = this.map.controler.pressed_keys;
 
         this.animations = new Map();
         this.frame_current_cnt = 0;
@@ -35,8 +35,8 @@ export class Player extends Object {
 
     render() {
         // draw the player
-        //this.ctx.fillStyle = this.color;
-        //this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        // this.ctx.fillStyle = this.color;
+        // this.ctx.fillRect(this.x, this.y, this.width, this.height);
         let status = this.status;
         if (status == 1 && this.direction * this.vx < 0) status = 2;
         let animation = this.animations.get(status);
@@ -49,11 +49,11 @@ export class Player extends Object {
                 this.ctx.save();
 
                 this.ctx.scale(-1, 1);
-                this.ctx.translate(-this.kof.map.$canvas.width(), 0);
+                this.ctx.translate(-this.map.$canvas.width(), 0);
 
                 let k = parseInt(this.frame_current_cnt / animation.frame_rate) % animation.frame_cnt;
                 let image = animation.gif.frames[k].image;
-                this.ctx.drawImage(image, this.kof.map.$canvas.width() - this.x - this.width, this.y + animation.offset_y, image.width * animation.scale, image.height * animation.scale);
+                this.ctx.drawImage(image, this.map.$canvas.width() - this.x - this.width, this.y + animation.offset_y, image.width * animation.scale, image.height * animation.scale);
 
                 this.ctx.restore();
             }
@@ -95,7 +95,7 @@ export class Player extends Object {
         let d = this.pressed_keys.has('d');
         let space = this.pressed_keys.has(' ');
 
-        if (this.uuid === this.kof.players[0].uuid) {  // only you can move by controler
+        if (this.uuid === this.map.players[0].uuid) {  // only you can move by controler
             if (this.status === 0 || this.status === 1) {
                 if (space) {  // attack
                     this.status = 4;
@@ -127,7 +127,7 @@ export class Player extends Object {
     }
 
     update_direction() {
-        let players = this.kof.players;
+        let players = this.map.players;
         if (players[0] && players[1]) {
             let me = this;
             let you;

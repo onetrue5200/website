@@ -12,13 +12,15 @@
     <script src="https://cdn.acwing.com/static/jquery/js/jquery-3.3.1.min.js"></script>
 </head>
 
-<body>
+<body style="margin: 0">
     <div id="kof"></div>
 
     <script type="module">
         import { KOF } from "{% static 'kof/js/kof.js' %}";
 
-        let kof = new KOF('kof');
+        $(document).ready(function () {
+            let kof = new KOF('kof');
+        });
     </script>
 </body>
 

@@ -1,9 +1,13 @@
 import { Object } from "./object.js";
 import { Controler } from "./controler.js";
+import { Kyo } from "./players/kyo.js";
+import { GameSocket } from "./sockets/game_socket.js";
 
 export class Map extends Object {
     constructor(kof) {
         super();
+
+        let outer = this;
 
         this.kof = kof;
 
@@ -14,21 +18,53 @@ export class Map extends Object {
         this.kof.$kof.append(this.$canvas);
 
         // create a controler
-        this.controler = new Controler(this.$canvas)
+        this.controler = new Controler(this.$canvas);
+
+        // player list
+        this.players = [];
+
+        this.start();
     }
 
-    start() { }
+    create_socket(uuid) {
+        // create game socket
+        this.game_socket = new GameSocket(this, uuid);
+    }
 
+    add_player() {
+        let player = new Kyo(this, {
+            x: 580,
+            y: 0,
+            width: 120,
+            height: 200,
+            color: 'blue',
+        });
+        this.players.push(player);
+        return player.uuid;
+    }
 
     render() {
         // clear the map before drawing the new one
         this.ctx.clearRect(0, 0, this.$canvas.width(), this.$canvas.height());
         // draw the map
-        //this.ctx.fillStyle = 'black';
-        //this.ctx.fillRect(0, 0, this.$canvas.width(), this.$canvas.height());
+        // this.ctx.fillStyle = 'black';
+        // this.ctx.fillRect(0, 0, this.$canvas.width(), this.$canvas.height());
     }
 
     update() {
         this.render();
+    }
+
+    show() {
+        this.$canvas.show();
+    }
+
+    hide() {
+        this.$canvas.hide();
+    }
+
+
+    start() {
+        this.hide();
     }
 }
