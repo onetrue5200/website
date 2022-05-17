@@ -37,6 +37,8 @@ export class Player extends Object {
     move_to(x, y, status) {
         this.x = x;
         this.y = y;
+        if (this.status != 3 && status === 3)
+            this.frame_current_cnt = 0;
         this.status = status;
     }
 
