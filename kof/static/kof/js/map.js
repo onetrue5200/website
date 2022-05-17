@@ -66,10 +66,12 @@ export class Map extends Object {
     }
 
     show() {
+        this.kof.$kof.css('background-image', "url('/static/kof/image/background/02.gif')");
         this.$canvas.show();
     }
 
     hide() {
+        this.kof.$kof.css('background-image', "");
         this.$canvas.hide();
     }
 

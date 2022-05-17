@@ -1,12 +1,25 @@
 #kof {
     width: 1280px;
     height: 720px;
-    background-image: url('../image/background/02.gif');
+    /* background-image: url('../image/background/02.gif'); */
+    background-color: cornsilk;
     /* cover the div */
     background-size: 200% 100%;
     /* center image */
     background-position: top;
     margin: 0 auto;
+}
+
+.login {
+    width: 500px;
+    margin: 0 auto;
+    padding-top: 200px;
+}
+
+.register {
+    width: 500px;
+    margin: 0 auto;
+    padding-top: 200px;
 }
 
 .menu {

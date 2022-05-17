@@ -9,11 +9,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>king of fighters</title>
     <link rel="stylesheet" href="{% static 'kof/css/kof.css' %}">
+    <link rel="stylesheet" href="{% static 'kof/bootstrap/css/bootstrap.min.css' %}">
     <script src="https://cdn.acwing.com/static/jquery/js/jquery-3.3.1.min.js"></script>
+    <script src="{% static 'kof/bootstrap/js/bootstrap.min.js' %}"></script>
 </head>
 
 <body style="margin: 0">
-    <div id="kof"></div>
+    <div class="container">
+        <div id="kof">
+            <div class="login">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="email" class="form-control" id="login-username">
+                    <div class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="login-password">
+                </div>
+                <div class="form-text error-message"></div>
+                <button class="btn btn-primary" id="login-button">login</button>
+                <button class="btn btn-primary" id="login-switch">register</button>
+            </div>
+            <div class="register">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="email" class="form-control" id="register-username">
+                    <div class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="register-password1">
+                </div>
+                <div class="mb-3">
+                    <label for="password2" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="register-password2">
+                </div>
+                <div class="form-text error-message"></div>
+                <button class="btn btn-primary" id="register-button">register</button>
+                <button class="btn btn-primary" id="register-switch">login</button>
+            </div>
+        </div>
+    </div>
 
     <script type="module">
         import { KOF } from "{% static 'kof/js/kof.js' %}";

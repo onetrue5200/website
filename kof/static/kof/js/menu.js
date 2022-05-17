@@ -32,7 +32,16 @@ export class Menu {
             }
         });
         this.$logout_btn.click(function () {
-            console.log("click logout");
+            $.ajax({
+                url: "http://106.15.0.62:8000/kof/logout/",
+                type: "GET",
+                data: {},
+                success: (resp) => {
+                    if (resp.result === 'success') {
+                        location.reload();
+                    }
+                },
+            });
         });
     }
 
@@ -46,5 +55,6 @@ export class Menu {
 
     start() {
         this.add_listening_events();
+        this.hide();
     }
 }
