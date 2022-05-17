@@ -101,7 +101,7 @@ export class Player extends Object {
             this.x = this.ctx.canvas.width - this.width;
         }
         // sync the move
-        if (this.map.game_socket.uuid === this.uuid && this.is_pressed && this.map.game_socket.state === true)
+        if (this.map.game_socket.uuid === this.uuid && (this.is_pressed || this.status === 3) && this.map.game_socket.state === true)
             this.map.game_socket.send_location(this.uuid, this.x, this.y, this.status);
     }
 
