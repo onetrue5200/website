@@ -29,17 +29,19 @@ export class Player extends Object {
 
         this.pressed_keys = this.map.controler.pressed_keys;
         this.is_pressed = false;
+        this.status_changed = false;
 
         this.animations = new Map();
         this.frame_current_cnt = 0;
     }
 
-    move_to(x, y, status) {
+    move_to(x, y, status, vx) {
         this.x = x;
         this.y = y;
         if (this.status != 3 && status === 3)
             this.frame_current_cnt = 0;
         this.status = status;
+        if (this.status == 1 && this.direction * vx < 0) this.status = 2;
     }
 
     start() {
@@ -103,8 +105,8 @@ export class Player extends Object {
             this.x = this.ctx.canvas.width - this.width;
         }
         // sync the move
-        if (this.map.game_socket.uuid === this.uuid && (this.is_pressed || this.status === 3) && this.map.game_socket.state === true)
-            this.map.game_socket.send_location(this.uuid, this.x, this.y, this.status);
+        if (this.map.game_socket.uuid === this.uuid && (this.is_pressed || this.status === 3 || this.status_changed) && this.map.game_socket.state === true)
+            this.map.game_socket.send_location(this.uuid, this.x, this.y, this.status, this.vx);
     }
 
     update_control() {
@@ -121,6 +123,7 @@ export class Player extends Object {
             this.is_pressed = false;
         }
 
+        let last_status = this.status;
         if (this.uuid === this.map.players[0].uuid) {  // only you can move by controler
             if (this.status === 0 || this.status === 1) {
                 if (space) {  // attack
@@ -150,6 +153,9 @@ export class Player extends Object {
                 }
             }
         }
+        if (last_status != this.status)
+            this.status_changed = true;
+        else this.status_changed = false;
     }
 
     update_direction() {

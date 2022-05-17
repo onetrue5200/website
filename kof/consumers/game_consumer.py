@@ -63,6 +63,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'x': data['x'],
                 'y': data['y'],
                 'status': data['status'],
+                'vx': data['vx'],
             }
         )
 

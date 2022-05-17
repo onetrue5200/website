@@ -21,19 +21,20 @@ export class GameSocket {
     }
 
 
-    send_location(uuid, x, y, status) {
+    send_location(uuid, x, y, status, vx) {
         this.ws.send(JSON.stringify({
             'event': 'location',
             'uuid': uuid,
             'x': x,
             'y': y,
             'status': status,
+            'vx': vx,
         }));
     }
 
-    receive_location(uuid, x, y, status) {
+    receive_location(uuid, x, y, status, vx) {
         let player = this.get_player(uuid);
-        player.move_to(x, y, status);
+        player.move_to(x, y, status, vx);
     }
 
     send_create_player() {
@@ -72,7 +73,8 @@ export class GameSocket {
                 let x = data.x;
                 let y = data.y;
                 let status = data.status;
-                outer.receive_location(uuid, x, y, status);
+                let vx = data.vx;
+                outer.receive_location(uuid, x, y, status, vx);
             }
         }
     }
