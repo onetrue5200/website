@@ -28,6 +28,7 @@ export class Player extends Object {
         this.status = 3;  // 0: default, 1: forward, 2: backward, 3: jump, 4: attack, 5: attacked, 6: dead
 
         this.pressed_keys = this.map.controler.pressed_keys;
+        this.is_pressed = false;
 
         this.animations = new Map();
         this.frame_current_cnt = 0;
@@ -81,6 +82,7 @@ export class Player extends Object {
     update_move() {
         if (this.status === 3) {
             this.vy += this.gravity;  // v = v + a * t
+            this.is_pressed = true;  // in the air == pressing
         }
         // s = v * t
         this.x += this.vx * this.timedelta / 1000;
@@ -90,6 +92,7 @@ export class Player extends Object {
             this.vy = 0;
             this.y = 450;
             this.status = 0;
+            this.is_pressed = false;
         }
         // map border
         if (this.x < 0) {
@@ -97,7 +100,8 @@ export class Player extends Object {
         } else if (this.x + this.width > this.ctx.canvas.width) {
             this.x = this.ctx.canvas.width - this.width;
         }
-        if (this.map.game_socket.uuid === this.uuid && this.map.game_socket.state === true)
+        // sync the move
+        if (this.map.game_socket.uuid === this.uuid && this.is_pressed && this.map.game_socket.state === true)
             this.map.game_socket.send_location(this.uuid, this.x, this.y, this.status);
     }
 
@@ -109,6 +113,11 @@ export class Player extends Object {
         let a = this.pressed_keys.has('a');
         let d = this.pressed_keys.has('d');
         let space = this.pressed_keys.has(' ');
+        if (w || a || d || space) {
+            this.is_pressed = true;
+        } else {
+            this.is_pressed = false;
+        }
 
         if (this.uuid === this.map.players[0].uuid) {  // only you can move by controler
             if (this.status === 0 || this.status === 1) {
