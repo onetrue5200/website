@@ -107,8 +107,8 @@ export class Player extends Object {
     }
 
     update_move() {
+        this.vy += this.gravity;  // v = v + a * t
         if (this.status === 3) {
-            this.vy += this.gravity;  // v = v + a * t
             this.is_pressed = true;  // in the air == pressing
         }
         // s = v * t
@@ -118,7 +118,7 @@ export class Player extends Object {
         if (this.y > 450) {
             this.vy = 0;
             this.y = 450;
-            this.status = 0;
+            if (this.status === 3) this.status = 0;
             this.is_pressed = false;
         }
         // map border
