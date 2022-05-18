@@ -17,6 +17,13 @@ export class Map extends Object {
 
         this.kof.$kof.append(this.$canvas);
 
+        // infobar
+        this.$infobar = this.kof.$kof.find('.info-bar');
+        this.$infobar.hide();
+
+        // timer
+        this.$timer = this.kof.$kof.find('.timer');
+
         // create a controler
         this.controler = new Controler(this.$canvas);
 
@@ -32,6 +39,18 @@ export class Map extends Object {
     start_fighting(order) {
         this.players[order].x = 880;
         this.players[1 - order].x = 200;
+        this.players[order].id = 0;  // set id
+        this.players[1 - order].id = 1;  // set id
+        // left player 1
+        this.players[1 - order].$hp = this.kof.$kof.find(`.player1 .player-hp`);
+        // right player 0
+        this.players[order].$hp = this.kof.$kof.find(`.player0 .player-hp`);
+        this.players[1 - order].$hp.css('width', '100%');
+        this.players[order].$hp.css('width', '100%');
+
+        this.$infobar.show();
+        this.time = 60000;
+
         this.state = 'fighting';
     }
 
@@ -61,7 +80,16 @@ export class Map extends Object {
         // this.ctx.fillRect(0, 0, this.$canvas.width(), this.$canvas.height());
     }
 
+    update_timer() {
+        if (this.state == 'fighting') {
+            this.time -= this.timedelta;
+            if (this.time < 0) this.time = 0;
+            this.$timer.text(parseInt(this.time / 1000));
+        }
+    }
+
     update() {
+        this.update_timer();
         this.render();
     }
 

@@ -49,14 +49,24 @@ export class Player extends Object {
         if (this.status === 6) return;
         this.status = 5;
         this.hp = Math.max(0, this.hp - 50);
-        if (this.hp === 0)
+        let rate = this.$hp.parents().width() * this.hp / 100;
+        this.$hp.animate({
+            width: rate,
+        }, 1000);
+        this.$hp.children('.hp-slow').animate({
+            width: rate,
+        });
+        if (this.hp === 0) {
             this.status = 6;
+            this.map.state = 'over';
+        }
         this.frame_current_cnt = 0;
     }
 
     start() {
-        if (this.map.players.length >= 2)
+        if (this.map.players.length >= 2) {
             this.map.start_fighting(this.order);
+        }
     }
 
     render() {
