@@ -1,8 +1,7 @@
 #kof {
     width: 1280px;
     height: 720px;
-    /* background-image: url('../image/background/02.gif'); */
-    background-color: cornsilk;
+    background-image: url('../image/background/00.gif');
     /* cover the div */
     background-size: 200% 100%;
     /* center image */
@@ -16,6 +15,12 @@
     margin: 0 auto;
     padding-top: 200px;
     display: none;
+    color: #fff;
+}
+
+.login .error-message,
+.register .error-message {
+    color: #f00;
 }
 
 .menu {
