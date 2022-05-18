@@ -14,6 +14,7 @@ export class Player extends Object {
         this.width = info.width;
         this.height = info.height;
         this.color = info.color;
+        this.hp = 100;
 
         this.vx = 0;
         this.vy = 0;
@@ -45,7 +46,11 @@ export class Player extends Object {
     }
 
     is_attacked() {
+        if (this.status === 6) return;
         this.status = 5;
+        this.hp = Math.max(0, this.hp - 50);
+        if (this.hp === 0)
+            this.status = 6;
         this.frame_current_cnt = 0;
     }
 
@@ -94,6 +99,9 @@ export class Player extends Object {
         if ((status === 4 || status === 5) && this.frame_current_cnt === animation.frame_rate * (animation.frame_cnt - 1)) {
             this.status = 0;
             this.map.game_socket.send_location(this.uuid, this.x, this.y, this.status, this.vx);
+        }
+        if (status === 6 && this.frame_current_cnt === animation.frame_rate * (animation.frame_cnt - 1)) {
+            this.frame_current_cnt--;
         }
         this.frame_current_cnt++;
     }
@@ -174,6 +182,7 @@ export class Player extends Object {
     }
 
     update_direction() {
+        if (this.status === 6) return;
         let players = this.map.players;
         if (players[0] && players[1]) {
             let me = this;
