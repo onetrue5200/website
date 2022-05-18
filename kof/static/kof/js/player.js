@@ -79,6 +79,7 @@ export class Player extends Object {
         }
         if (status === 4 && this.frame_current_cnt === animation.frame_rate * (animation.frame_cnt - 1)) {
             this.status = 0;
+            this.map.game_socket.send_location(this.uuid, this.x, this.y, this.status, this.vx);
         }
         this.frame_current_cnt++;
     }

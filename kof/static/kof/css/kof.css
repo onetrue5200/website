@@ -10,16 +10,12 @@
     margin: 0 auto;
 }
 
-.login {
-    width: 500px;
-    margin: 0 auto;
-    padding-top: 200px;
-}
-
+.login,
 .register {
     width: 500px;
     margin: 0 auto;
     padding-top: 200px;
+    display: none;
 }
 
 .menu {
