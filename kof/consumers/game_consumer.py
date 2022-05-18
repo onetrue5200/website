@@ -70,6 +70,20 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def group_location(self, data):
         await self.send(text_data=json.dumps(data))
 
+    async def attack(self, data):
+        await self.channel_layer.group_send(
+            self.room_name,
+            {
+                'type': 'send_data',
+                'event': 'attack',
+                'uuid': data['attacker_uuid'],
+                'attackee_uuid': data['attackee_uuid'],
+            }
+        )
+
+    async def send_data(self, data):
+        await self.send(text_data=json.dumps(data))
+
     async def receive(self, text_data):
         data = json.loads(text_data)
         event = data['event']
@@ -77,3 +91,5 @@ class GameConsumer(AsyncWebsocketConsumer):
             await self.create_player(data)
         elif event == 'location':
             await self.location(data)
+        elif event == 'attack':
+            await self.attack(data)

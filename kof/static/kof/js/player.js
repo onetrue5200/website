@@ -38,10 +38,15 @@ export class Player extends Object {
     move_to(x, y, status, vx) {
         this.x = x;
         this.y = y;
-        if (this.status != 3 && status === 3)
+        if ((this.status != 3 && status === 3) || this.status != 4 && status === 4)
             this.frame_current_cnt = 0;
         this.status = status;
         if (this.status == 1 && this.direction * vx < 0) this.status = 2;
+    }
+
+    is_attacked() {
+        this.status = 5;
+        this.frame_current_cnt = 0;
     }
 
     start() {
@@ -50,9 +55,18 @@ export class Player extends Object {
     }
 
     render() {
-        // draw the player
-        // this.ctx.fillStyle = this.color;
+        // draw the player box
+        // this.ctx.fillStyle = 'blue';
         // this.ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        //draw the attack range
+        // this.ctx.fillStyle = 'red';
+        // if (this.direction > 0) {
+        //     this.ctx.fillRect(this.x + this.width, this.y + 30, 105, 30);
+        // } else {
+        //     this.ctx.fillRect(this.x - 75 - 30, this.y + 30, 105, 30);
+        // }
+
         let status = this.status;
         if (status == 1 && this.direction * this.vx < 0) status = 2;
         let animation = this.animations.get(status);
@@ -77,7 +91,7 @@ export class Player extends Object {
             // this.ctx.fillStyle = this.color;
             // this.ctx.fillRect(this.x, this.y, this.width, this.height);
         }
-        if (status === 4 && this.frame_current_cnt === animation.frame_rate * (animation.frame_cnt - 1)) {
+        if ((status === 4 || status === 5) && this.frame_current_cnt === animation.frame_rate * (animation.frame_cnt - 1)) {
             this.status = 0;
             this.map.game_socket.send_location(this.uuid, this.x, this.y, this.status, this.vx);
         }
@@ -171,10 +185,38 @@ export class Player extends Object {
         }
     }
 
+    update_attack() {
+        let players = this.map.players;
+        let enemy = players[1];
+        if (players.length > 1 && this.uuid === this.map.players[0].uuid && this.status === 4 && this.frame_current_cnt === 18) {
+            let fist = {};
+            if (this.direction > 0) {
+                fist = {
+                    l: this.x + this.width,
+                    r: this.x + this.width + 105,
+                }
+            } else {
+                fist = {
+                    l: this.x - 75 - 30,
+                    r: this.x - 75 - 30 + 105,
+                }
+            }
+            let body = {
+                l: enemy.x,
+                r: enemy.x + enemy.width,
+            }
+            if (Math.max(fist.l, body.l) < Math.min(fist.r, body.r)) {
+                enemy.is_attacked();
+                this.map.game_socket.send_attack(this.uuid, enemy.uuid);
+            }
+        }
+    }
+
     update() {
         this.update_control();
         this.update_move();
         this.update_direction();
+        this.update_attack();
         this.render();
     }
 }

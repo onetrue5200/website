@@ -57,6 +57,19 @@ export class GameSocket {
         this.kof.players.push(player);
     }
 
+    send_attack(attacker_uuid, attackee_uuid) {
+        this.ws.send(JSON.stringify({
+            'event': 'attack',
+            'attacker_uuid': attacker_uuid,
+            'attackee_uuid': attackee_uuid,
+        }));
+    }
+
+    receive_attack(uuid) {
+        let player = this.get_player(uuid);
+        player.is_attacked();
+    }
+
     receive() {
         let outer = this;
         this.ws.onmessage = function (e) {
@@ -75,6 +88,9 @@ export class GameSocket {
                 let status = data.status;
                 let vx = data.vx;
                 outer.receive_location(uuid, x, y, status, vx);
+            } else if (event === 'attack') {
+                let uuid = data.attackee_uuid;
+                outer.receive_attack(uuid);
             }
         }
     }
