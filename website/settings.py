@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-!ce=3k!q7j3$-ao3fwk^nehwszwh$#@o8m81nywyt53^aj+3+5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['106.15.0.62']
+ALLOWED_HOSTS = ['106.15.0.62', 'onetrue.top']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'channels',
     'campus',
     'kof',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -172,3 +174,7 @@ CHANNEL_LAYERS = {
 }
 
 ROOM_CAPACITY = 2
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_HEADERS = ('*')
+CORS_ALLOW_CREDENTIALS = True

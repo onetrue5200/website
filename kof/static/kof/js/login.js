@@ -29,8 +29,10 @@ export class Login {
             let username = this.$username.val();
             let password = this.$password.val();
             $.ajax({
-                url: "http://106.15.0.62:8000/kof/login/",
+                url: "http://onetrue.top/kof/login/",
                 type: "GET",
+                xhrFields: { withCredentials: true },
+                crossDomain: true,
                 data: {
                     username: username,
                     password: password,

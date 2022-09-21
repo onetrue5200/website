@@ -3,7 +3,7 @@ import { Kyo } from "../players/kyo.js";
 export class GameSocket {
     constructor(kof, uuid) {
         this.kof = kof;
-        this.ws = new WebSocket("ws://106.15.0.62:8000/kof/wss/game/");
+        this.ws = new WebSocket("ws://onetrue.top/kof/wss/game/");
         this.uuid = uuid;
         this.state = false;
 

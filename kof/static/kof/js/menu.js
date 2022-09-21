@@ -33,7 +33,7 @@ export class Menu {
         });
         this.$logout_btn.click(function () {
             $.ajax({
-                url: "http://106.15.0.62:8000/kof/logout/",
+                url: "http://onetrue.top/kof/logout/",
                 type: "GET",
                 data: {},
                 success: (resp) => {

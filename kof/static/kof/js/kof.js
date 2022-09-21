@@ -22,8 +22,10 @@ export class KOF {
     getinfo() {
         let outer = this;
         $.ajax({
-            url: 'http://106.15.0.62:8000/kof/getinfo/',
+            url: 'http://onetrue.top/kof/getinfo/',
             type: 'GET',
+            xhrFields: { withCredentials: true },
+            crossDomain: true,
             data: {},
             success: function (resp) {
                 if (resp.result === 'success') {

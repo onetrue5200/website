@@ -31,8 +31,10 @@ export class Register {
             let password1 = this.$password1.val();
             let password2 = this.$password2.val();
             $.ajax({
-                url: "http://106.15.0.62:8000/kof/register/",
+                url: "http://onetrue.top/kof/register/",
                 type: "GET",
+                xhrFields: { withCredentials: true },
+                crossDomain: true,
                 data: {
                     username: username,
                     password1: password1,
